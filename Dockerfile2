@@ -1,0 +1,21 @@
+FROM alpine:3.19.0
+
+RUN adduser dev | echo "pass"
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+ARG VAR1="This is a var in Docker File"
+
+ENV VAR2="This is var for container"
+
+RUN echo $VAR1 >> userfile
+RUN echo $VAR2 >> userfile
+RUN whoami >> userfile
+
+USER dev
+WORKDIR /home/dev
+
+RUN echo $VAR1 >> newfile
+RUN echo $VAR2 >> newfile
+RUN whoami >> newfile
+
+USER root
